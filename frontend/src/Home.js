@@ -1,5 +1,5 @@
 import './App.css'; 
-import Animation from './Animation';
+
 
 
 function Home() {
@@ -13,7 +13,7 @@ function Home() {
           <li>Photography</li>
         </ul>
       </nav>
-       <Animation />
+
     </main>
   );
 }
