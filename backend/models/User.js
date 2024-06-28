@@ -3,33 +3,39 @@ const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate({ Comment }) {
+    static associate(models) {
       // Example association with Comment model
-      User.hasMany(Comment, { as: 'author', foreignKey: 'author_id' });
+      User.hasMany(models.Comment, { as: 'comments', foreignKey: 'userId' });
     }
   }
 
   User.init({
-    userId: {
-      type: DataTypes.INTEGER, // Adjusted to INTEGER assuming potentially large number of users
-      primaryKey: true,
-      autoIncrement: true
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     email: {
       type: DataTypes.STRING,
-      unique: true // Ensure email is unique
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     role: {
-      type: DataTypes.ENUM,
-      values: ['reviewer', 'admin'],
+      type: DataTypes.ENUM('reviewer', 'admin'),
+      allowNull: false,
+      defaultValue: 'reviewer',
     },
-    passwordDigest: DataTypes.STRING, // Assuming this holds a hashed password
   }, {
     sequelize,
+    modelName: 'User',
+    timestamps: true, // Ensure timestamps are created automatically
     underscored: true, // Use snake_case for column names
-    modelName: 'User', // Model name in singular form
   });
 
   return User;
