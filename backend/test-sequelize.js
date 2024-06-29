@@ -1,6 +1,6 @@
 // test-sequelize.js
 
-const sequelize = require('./sequelize'); // Import Sequelize instance
+const sequelize = require('./config/database'); // Import Sequelize instance
 
 async function testConnection() {
   try {
