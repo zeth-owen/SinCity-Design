@@ -17,7 +17,7 @@ const AppSearch = () => {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search Apps..."
       />
-      <button onClick={handleSearch}>Search</button>
+      <button className='search' onClick={handleSearch}>Search</button>
       {/* Add result display logic here */}
     </div>
   );

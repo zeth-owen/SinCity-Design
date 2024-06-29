@@ -9,11 +9,9 @@ function Navigation() {
     const { currentUser, setCurrentUser } = useContext(CurrentUser);
 
     const handleLogout = () => {
-        // Clear the token from local storage
         localStorage.removeItem('token');
-        // Update the current user context
+ 
         setCurrentUser(null);
-        // Redirect to home
         history.push('/');
     };
 
