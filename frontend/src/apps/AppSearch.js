@@ -10,17 +10,21 @@ const AppSearch = () => {
   };
 
   return (
-    <div>
+    <div className="search-container">
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search Apps..."
+        className="search-input"
       />
-      <button className='search' onClick={handleSearch}>Search</button>
+      <button className="search-button" onClick={handleSearch}>
+        Search
+      </button>
       {/* Add result display logic here */}
     </div>
   );
 };
 
 export default AppSearch;
+

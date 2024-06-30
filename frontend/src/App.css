@@ -59,7 +59,7 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; 
+  z-index: 5; 
 }
 
 nav ul {
@@ -87,12 +87,47 @@ nav li {
   text-decoration: underline;
 }
 
-.search {
+/* App.css */
+
+.search-container {
+  position: absolute;
+  top: 10vh; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 20px;
+  font-size: 1em;
+  margin-right: 10px; /* Adjust spacing */
+}
+
+.search-button {
   background-color: white;
   border: 2px solid black;
   color: black;
-  padding: 5px 20px;
+  padding: 10px 20px;
   font-size: 1em;
-  margin: 20px;
   border-radius: 20px;
 }
+
+.template-grid {
+  display: grid;
+  margin-top: 10vh;
+  grid-template-columns: repeat(2, 1fr); /* 4 templates per row */
+  gap: 20px; /* Adjust gap between template cards */
+}
+
+.template-card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
