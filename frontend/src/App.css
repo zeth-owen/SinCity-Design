@@ -1,5 +1,3 @@
-/* App.css */
-
 
 html, body, #root {
   height: 100%;
@@ -91,7 +89,7 @@ nav li {
 
 .search-container {
   position: absolute;
-  top: 10vh; /* Adjust as needed */
+  top: 17vh; /* Adjust as needed */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -130,4 +128,8 @@ nav li {
   justify-content: space-between;
 }
 
+.page-title {
+  text-align: center;
+  margin-top: 10vh;
+}
 

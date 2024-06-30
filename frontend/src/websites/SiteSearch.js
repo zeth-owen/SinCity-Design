@@ -10,13 +10,12 @@ const SiteSearch = () => {
     setLoading(true);
     setError(null);
 
-  
     const searchTerm = `${query} website template`;
 
     try {
       const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?term=${searchTerm}`, {
         headers: {
-          'Authorization': `Bearer ` 
+          'Authorization': `Bearer ${process.env.REACT_APP_ENVATO_API_KEY}`
         }
       });
 
@@ -35,7 +34,7 @@ const SiteSearch = () => {
 
   return (
     <div>
-      <h1>Websites</h1>
+      <h1 className='page-title'>Websites</h1>
       <div className="search-container">
         <input
           type="text"
@@ -60,11 +59,9 @@ const SiteSearch = () => {
                 <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
               )}
               <p>Category: {template.category}</p>
-           
             </div>
             <div className="card-footer">
               <p>Designer: {template.designer}</p>
-              
               <a href={`/templates/${template.id}`} target="_blank" rel="noopener noreferrer">View Details</a>
             </div>
           </div>
@@ -75,6 +72,7 @@ const SiteSearch = () => {
 };
 
 export default SiteSearch;
+
 
 
 

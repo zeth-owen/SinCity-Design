@@ -36,8 +36,8 @@ module.exports = (sequelize) => {
     sequelize,
     modelName: 'User',
     tableName: 'Users',
-    timestamps: true, // Ensure timestamps are created automatically
-    underscored: true, // Use snake_case for column names
+    timestamps: true, 
+    underscored: true, 
   });
 
   return User;

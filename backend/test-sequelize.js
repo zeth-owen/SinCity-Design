@@ -1,15 +1,15 @@
 // test-sequelize.js
 
-const sequelize = require('./config/database'); // Import Sequelize instance
+const sequelize = require('./config/database'); 
 
 async function testConnection() {
   try {
-    await sequelize.authenticate(); // Test the connection to the database
+    await sequelize.authenticate(); 
     console.log('Connection to the database has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   } finally {
-    // Always close the connection when done
+
     await sequelize.close();
   }
 }

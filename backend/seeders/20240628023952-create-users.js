@@ -14,7 +14,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // Add more users or records as needed
+  
     ], {});
   },
 

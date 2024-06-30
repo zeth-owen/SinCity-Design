@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
   }
 
   Comment.init({
-    // Define attributes here
+   
     content: {
       type: DataTypes.STRING,
       allowNull: false,
