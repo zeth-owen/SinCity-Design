@@ -30,7 +30,7 @@ function SignUpForm() {
 			history.push(`/`);
 		} catch (error) {
 			console.error('Error creating user:', error);
-			// Handle error state or show user-friendly message
+
 		}
 	}
 

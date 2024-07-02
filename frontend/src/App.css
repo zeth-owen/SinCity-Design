@@ -1,10 +1,8 @@
-
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
 }
-
 
 .video-container {
   position: relative;
@@ -45,7 +43,6 @@ html, body, #root {
   border-radius: 20px;
 }
 
-
 nav {
   background-color: white;
   height: 8vh; /* Fixed height for navigation bar */
@@ -85,8 +82,6 @@ nav li {
   text-decoration: underline;
 }
 
-/* App.css */
-
 .search-container {
   position: absolute;
   top: 17vh; /* Adjust as needed */
@@ -113,10 +108,15 @@ nav li {
   border-radius: 20px;
 }
 
+.page-title {
+  text-align: center;
+  margin-top: 10vh;
+}
+
 .template-grid {
   display: grid;
   margin-top: 10vh;
-  grid-template-columns: repeat(2, 1fr); /* 4 templates per row */
+  grid-template-columns: repeat(2, 1fr); /* Default to 2 templates per row */
   gap: 20px; /* Adjust gap between template cards */
 }
 
@@ -128,8 +128,78 @@ nav li {
   justify-content: space-between;
 }
 
-.page-title {
-  text-align: center;
-  margin-top: 10vh;
+.show-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust height as needed */
 }
 
+.show-page-content {
+  text-align: center;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 photos per row */
+  gap: 20px; /* Adjust gap between photo cards */
+  margin-top: 20px; /* Adjust margin as needed */
+}
+
+.photo-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 100%; /* Limit card width to prevent overflow */
+}
+
+.card-content {
+  width: 100%; /* Ensure content fills the card */
+  height: 100%; /* Ensure content fills the card */
+}
+
+.card-content img {
+  max-width: 100%; /* Ensure image doesn't exceed card width */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Prevent extra space below inline images */
+  object-fit: cover; /* Maintain aspect ratio without stretching */
+}
+
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+  z-index: 10;
+}
+
+.designer-profile {
+  text-align: center;
+}
+
+.designer-profile img {
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Maintain aspect ratio */
+  border-radius: 50%; /* Rounded profile photo */
+  margin-bottom: 10px;
+}
+
+.designer-profile p {
+  margin-bottom: 5px;
+}
+
+.designer-profile a {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.designer-profile a:hover {
+  text-decoration: underline;
+}

@@ -11,7 +11,7 @@ function Home() {
           Your browser does not support the video tag.
         </video>
         <div className='title'>
-          <h1 className='Sincity'>Sincity Design</h1>
+          <h1 className='Sincity'>Sin City Media</h1>
           <button className="custom-button" onClick={() => history.push('/sign-up')}>Sign Up</button>
           <button className="custom-button" onClick={() => history.push('/login')}>Log In</button>
         </div>

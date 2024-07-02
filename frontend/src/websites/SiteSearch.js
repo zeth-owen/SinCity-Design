@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import StickyFooter from '../StickyFooter'; // Adjust the path based on your project structure
 
 const SiteSearch = () => {
   const [query, setQuery] = useState('');
@@ -15,7 +16,7 @@ const SiteSearch = () => {
     try {
       const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?term=${searchTerm}`, {
         headers: {
-          'Authorization': `Bearer ${process.env.REACT_APP_ENVATO_API_KEY}`
+          'Authorization': `Bearer CL4GksVyyG2InLzQjrBNQef7h8aHEcr5`
         }
       });
 
@@ -24,8 +25,10 @@ const SiteSearch = () => {
       }
 
       const data = await response.json();
-      setTemplates(data.matches); 
+      console.log('Fetched templates:', data.matches); 
+      setTemplates(data.matches);
     } catch (error) {
+      console.error('Error fetching data:', error);
       setError('Error fetching data');
     } finally {
       setLoading(false);
@@ -51,29 +54,32 @@ const SiteSearch = () => {
       {error && <p className="error-message">{error}</p>}
 
       <div className="template-grid">
-        {templates.map(template => (
-          <div key={template.id} className="template-card">
-            <div className="card-content">
-              <h3>{template.name}</h3>
-              {template.previews && template.previews.landscape_preview && (
-                <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
-              )}
-              <p>Category: {template.category}</p>
+        {templates.length > 0 ? (
+          templates.map(template => (
+            <div key={template.id} className="template-card">
+              <div className="card-content">
+                <h3>{template.name}</h3>
+                {template.previews && template.previews.landscape_preview && (
+                  <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
+                )}
+                <p>Category: {template.category}</p>
+              </div>
+              <div className="card-footer">
+                <p>Designer: {template.designer}</p>
+                {/* Pass template id to ShowPage via Link */}
+                <a href={`/templates/${template.id}`} target="_blank" rel="noopener noreferrer">View Details</a>
+              </div>
             </div>
-            <div className="card-footer">
-              <p>Designer: {template.designer}</p>
-              <a href={`/templates/${template.id}`} target="_blank" rel="noopener noreferrer">View Details</a>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>{loading ? 'Searching...' : 'No templates found.'}</p>
+        )}
       </div>
+      <StickyFooter />
     </div>
   );
 };
 
 export default SiteSearch;
-
-
-
 
 

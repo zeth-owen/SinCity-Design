@@ -1,48 +1,47 @@
-'use strict';
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const db = require('../config/database');
 
-module.exports = (sequelize) => {
-  class User extends Model {
-    static associate(models) {
-      // Example association with Comment model
-      User.hasMany(models.Comment, { as: 'comments', foreignKey: 'userId' });
+class User {
+  static async create(firstName, lastName, email, role) {
+    const query = `
+      INSERT INTO users (first_name, last_name, email, role)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+    `;
+    const values = [firstName, lastName, email, role];
+
+    try {
+      const { rows } = await db.query(query, values);
+      return rows[0];
+    } catch (error) {
+      throw error;
     }
   }
 
-  User.init({
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
-    },
-    role: {
-      type: DataTypes.ENUM('reviewer', 'admin'),
-      allowNull: false,
-      defaultValue: 'reviewer',
-    },
-  }, {
-    sequelize,
-    modelName: 'User',
-    tableName: 'Users',
-    timestamps: true, 
-    underscored: true, 
-  });
+  static async findById(id) {
+    const query = `
+      SELECT * FROM users
+      WHERE id = $1
+    `;
+    const values = [id];
 
-  return User;
-};
+    try {
+      const { rows } = await db.query(query, values);
+      return rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  // Add more static methods for other CRUD operations as needed
+  
+  static async associateComments(user, comments) {
+    // Example of associating comments with a user
+    // This needs to be handled manually as per your application's requirements
+    // Example SQL query: UPDATE comments SET user_id = $1 WHERE id IN ($2, $3, ...)
+    // Execute appropriate queries here
+  }
+}
 
-
+module.exports = User;
 
 
