@@ -1,11 +1,10 @@
 # SinCity Media
 
-SinCity Media is a web application designed to showcase and manage creative templates for various digital projects. Users can explore, search, and view details of templates, as well as, other designers contributing their own creations.
+SinCity Media is a web application designed to showcase and manage creative templates for various digital projects. Users can explore, search, and view details of templates, as well as other designers contributing their own creations.
 
 ### Designers
 
 - **Zeth Thomas**
-
 
 ## Features
 
@@ -28,8 +27,7 @@ SinCity Media is a web application designed to showcase and manage creative temp
 - Node.js and npm installed on your machine
 - PostgreSQL database setup 
 
-
-#### Authentication and Profile Routes
+### Authentication and Profile Routes
 
 - **POST `/auth/login`**
   - *Description:* Authenticate user and generate JWT token.
@@ -46,7 +44,7 @@ SinCity Media is a web application designed to showcase and manage creative temp
   - *Body:* `{ first_name, last_name, email, password }`
   - *Response:* `{ user, token }`
 
-#### Template Comments Routes
+### Template Comments Routes
 
 - **POST `/templates/:id/comments`**
   - *Description:* Add a comment and rating to a template.
@@ -62,9 +60,10 @@ SinCity Media is a web application designed to showcase and manage creative temp
 
 ## Future Goals
 
-**Continue to develop this app by:**
+Continue to develop this app by:
 - Expanding designer portfolios
 - Fixing bugs
-- Detail Envatos templates
-- Create a favorites page
+- Detail Envato's templates
+- Creating a favorites page
+
 
