@@ -9,7 +9,7 @@ import './App.css';
 import AppSearch from './apps/AppSearch';
 import SiteSearch from './websites/SiteSearch';
 import PhotoSearch from './photography/PhotoSearch';
-import ShowPage from './websites/SitePage';
+import ShowPage from './websites/ShowPage';
 
 function App() {
   return (

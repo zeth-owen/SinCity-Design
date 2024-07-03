@@ -30,15 +30,15 @@ function SignUpForm() {
       }
 
       const data = await response.json();
-      const { user: newUser, token } = data; // Destructure user and token from response
+      const { user: newUser, token } = data; 
 
-      // Store token in localStorage for persistent login
+    
       localStorage.setItem('token', token);
 
-      // Update currentUser in context
+     
       setCurrentUser(newUser);
 
-      // Redirect or navigate to home page
+    
       history.push('/');
     } catch (error) {
       console.error('Error creating user:', error);

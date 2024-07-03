@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import StickyFooter from '../StickyFooter'; // Adjust the path based on your project structure
+import StickyFooter from '../StickyFooter'; 
 
 const SiteSearch = () => {
   const [query, setQuery] = useState('');
@@ -67,7 +67,7 @@ const SiteSearch = () => {
               <div className="card-footer">
                 <p>Designer: {template.designer}</p>
                 {/* Pass template id to ShowPage via Link */}
-                <a href={`/templates/${template.id}`} target="_blank" rel="noopener noreferrer">View Details</a>
+                <a href={`/templates/${template.id}`}  rel="noopener noreferrer">View Details</a>
               </div>
             </div>
           ))

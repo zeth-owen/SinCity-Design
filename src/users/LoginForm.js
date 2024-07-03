@@ -31,7 +31,7 @@ function LoginForm() {
                 setCurrentUser(data.user);
                 localStorage.setItem('token', data.token);
                 history.push('/');
-                setErrorMessage(null); // Clear any previous error messages
+                setErrorMessage(null); 
             } else {
                 setErrorMessage(data.message || 'Login failed');
             }
