@@ -1,23 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { CurrentUser } from '../contexts/CurrentUser'; // Import your CurrentUser context
 
 function SignUpForm() {
   const history = useHistory();
+  const { setCurrentUser } = useContext(CurrentUser); // Access setCurrentUser from context
 
   const [user, setUser] = useState({
     first_name: '',
     last_name: '',
     email: '',
-    password: '',
-    password_digest: '', 
+    password: ''
   });
-  
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:4000/users/`, {
+      const response = await fetch(`http://localhost:4000/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -29,7 +29,17 @@ function SignUpForm() {
         throw new Error('Failed to create user');
       }
 
-      history.push(`/`);
+      const data = await response.json();
+      const { user: newUser, token } = data; // Destructure user and token from response
+
+      // Store token in localStorage for persistent login
+      localStorage.setItem('token', token);
+
+      // Update currentUser in context
+      setCurrentUser(newUser);
+
+      // Redirect or navigate to home page
+      history.push('/');
     } catch (error) {
       console.error('Error creating user:', error);
     }
@@ -92,4 +102,5 @@ function SignUpForm() {
 }
 
 export default SignUpForm;
+
 

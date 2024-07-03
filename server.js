@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const { Pool } = require('pg');
-const cors = require('cors'); // Import cors middleware
+const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -34,130 +34,166 @@ pool.connect((err, client, release) => {
 app.use(cors());
 app.use(express.json());
 
-// Routes
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
 
-// Get all users
-app.get('/users', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM users');
-    res.json(result.rows);
-  } catch (err) {
-    console.error('Error fetching users:', err);
-    res.status(500).send('Internal Server Error');
+  if (token == null) {
+    return res.status(401).json({ message: 'No token provided' });
   }
-});
 
-// Create a new userapp.post('/users', async (req, res) => {
-  app.post('/users', async (req, res) => {
-    try {
-      const { first_name, last_name, email, password } = req.body;
-      const passwordDigest = await bcrypt.hash(password, 10); // Ensure this is inside an async function
-  
-      const client = await pool.connect();
-      try {
-        const result = await client.query(
-          'INSERT INTO users (first_name, last_name, email, password_digest) VALUES ($1, $2, $3, $4) RETURNING id, first_name, last_name, email, created_at, updated_at',
-          [first_name, last_name, email, passwordDigest]
-        );
-        const newUser = result.rows[0];
-        res.json(newUser);
-      } finally {
-        client.release();
-      }
-    } catch (error) {
-      console.error('Error creating user:', error);
-      res.status(500).json({ error: 'Failed to create user' });
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid token' });
     }
+
+    req.user = user;
+    next();
   });
-  
-
-
-app.get('/auth/profile', async (req, res) => {
-  try {
-    const userId = req.user.id; // Assuming req.user is correctly set by authentication middleware
-
-    const query = 'SELECT id, first_name, last_name, email FROM users WHERE id = $1';
-    const result = await pool.query(query, [userId]);
-    const user = result.rows[0];
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Log the user profile data for debugging
-    console.log('User Profile:', user);
-
-    // Return the user profile data
-    res.json({
-      id: user.id,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      email: user.email,
-    });
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
-    res.status(500).json({ message: 'An error occurred fetching user profile' });
-  }
-});
-
-
-
+}
 
 // User authentication and profile routes
 const authRouter = express.Router();
 
 authRouter.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
   try {
-    const { email, password } = req.body;
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+      const user = result.rows[0];
 
-    const query = 'SELECT * FROM users WHERE email = $1';
-    const result = await pool.query(query, [email]);
-    const user = result.rows[0];
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
 
-    if (!user) {
-      return res.status(404).json({ message: 'Could not find a user with the provided email' });
+      const passwordMatch = await bcrypt.compare(password, user.password_hash);
+
+      if (!passwordMatch) {
+        return res.status(401).json({ message: 'Incorrect password' });
+      }
+
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      res.json({ user, token });
+    } finally {
+      client.release();
     }
-
-    const passwordMatch = await bcrypt.compare(password, user.password_digest);
-
-    if (!passwordMatch) {
-      return res.status(401).json({ message: 'Incorrect password' });
-    }
-
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
-
-    res.json({ user, token });
   } catch (error) {
-    console.error('Error during authentication:', error);
-    res.status(500).json({ message: 'An error occurred during authentication' });
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Failed to login' });
   }
 });
-
 authRouter.get('/profile', async (req, res) => {
   try {
+    // Verify token
     const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const client = await pool.connect();
+    try {
+      // Fetch user profile based on decodedToken.userId
+      const result = await client.query('SELECT id, email, first_name, last_name FROM users WHERE id = $1', [decodedToken.userId]);
+      const user = result.rows[0];
 
-    const query = 'SELECT * FROM users WHERE id = $1';
-    const result = await pool.query(query, [decoded.id]);
-    const user = result.rows[0];
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      res.json(user);
+    } finally {
+      client.release();
     }
-
-    res.json(user);
   } catch (error) {
-    console.error('Error fetching user profile:', error);
-    res.status(500).json({ message: 'An error occurred fetching user profile' });
+    console.error('Error fetching profile:', error);
+    res.status(500).json({ message: 'Failed to fetch profile' });
   }
 });
 
+
+
+// Signup route with first_name, last_name, email, and password_digest
+authRouter.post('/signup', async (req, res) => {
+  const { first_name, last_name, email, password } = req.body;
+
+  try {
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const client = await pool.connect();
+    try {
+      const result = await client.query(
+        'INSERT INTO users (first_name, last_name, email, password_digest) VALUES ($1, $2, $3, $4) RETURNING id, first_name, last_name, email',
+        [first_name, last_name, email, hashedPassword]
+      );
+      const newUser = result.rows[0];
+
+      // Generate JWT token
+      const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      // Send user data and token back to client
+      res.status(201).json({ user: newUser, token });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Error during signup:', error);
+    res.status(500).json({ message: 'Failed to signup' });
+  }
+});
+
+
+
+// Comment routes
+app.get('/templates/:id/comments', async (req, res) => {
+  const templateId = req.params.id;
+  try {
+    const result = await pool.query('SELECT * FROM comments WHERE template_id = $1', [templateId]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ message: 'Failed to fetch comments' });
+  }
+});
+
+app.post('/templates/:id/comments', authenticateToken, async (req, res) => {
+  const templateId = req.params.id;
+  const { text } = req.body;
+
+  try {
+    const client = await pool.connect();
+    try {
+      const result = await client.query(
+        'INSERT INTO comments (text, user_id, template_id) VALUES ($1, $2, $3) RETURNING *',
+        [text, req.user.userId, templateId]
+      );
+      const newComment = result.rows[0];
+      res.json(newComment);
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Error adding comment:', error);
+    res.status(500).json({ message: 'Failed to add comment' });
+  }
+});
+
+// Fetch all users
+app.get('/users', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM users');
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Failed to fetch users' });
+  }
+});
+
+// Use authRouter for authentication routes
 app.use('/auth', authRouter);
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
-

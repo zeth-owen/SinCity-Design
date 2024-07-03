@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { CurrentUser } from './contexts/CurrentUser';
 import { Link } from 'react-router-dom';
 import './App.css';
@@ -10,21 +10,9 @@ function Navigation() {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
- 
         setCurrentUser(null);
         history.push('/');
     };
-
-    let userActions = (
-        <>
-            {currentUser && (
-                <li style={{ float: 'right' }}>
-                    Logged in as {currentUser.firstName} {currentUser.lastName}
-                    <button onClick={handleLogout}>Logout</button>
-                </li>
-            )}
-        </>
-    );
 
     return (
         <nav>
@@ -41,10 +29,19 @@ function Navigation() {
                 <li>
                     <Link to="/photography" className="nav-link">Photography</Link>
                 </li>
-                {userActions}
+                {currentUser && (
+                    <li style={{ textAlign: 'center' }}>
+                        {currentUser.first_name} {currentUser.last_name}
+                        <br />
+                        <button className="logout-button" onClick={handleLogout}>Logout</button>
+                    </li>
+                )}
             </ul>
         </nav>
     );
 }
 
 export default Navigation;
+
+
+

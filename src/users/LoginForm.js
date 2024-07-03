@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useHistory } from "react-router-dom"; // corrected import
+import { useHistory } from "react-router-dom";
 import { CurrentUser } from "../contexts/CurrentUser";
 
 function LoginForm() {
@@ -31,6 +31,7 @@ function LoginForm() {
                 setCurrentUser(data.user);
                 localStorage.setItem('token', data.token);
                 history.push('/');
+                setErrorMessage(null); // Clear any previous error messages
             } else {
                 setErrorMessage(data.message || 'Login failed');
             }
@@ -82,4 +83,5 @@ function LoginForm() {
 }
 
 export default LoginForm;
+
 

@@ -15,7 +15,7 @@ const ShowPage = () => {
       try {
         const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?id=${id}`, {
           headers: {
-            'Authorization': `Bearer CL4GksVyyG2InLzQjrBNQef7h8aHEcr5`
+            'Authorization': `Bearer ${process.env.REACT_APP_ENVATO_API_KEY}`
           }
         });
         const data = await response.json();
