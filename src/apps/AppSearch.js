@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import StickyFooter from '../StickyFooter'; 
+import { Link } from 'react-router-dom'; 
 
 const AppSearch = () => {
   const [query, setQuery] = useState('');
@@ -11,10 +12,10 @@ const AppSearch = () => {
     setLoading(true);
     setError(null);
 
-    const searchTerm = `${query} apps`;
+    const appSearchTerm = `${query} apps`;
 
     try {
-      const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?term=${searchTerm}`, {
+      const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?term=${appSearchTerm}`, {
         headers: {
          'Authorization': `Bearer ${process.env.REACT_APP_ENVATO_API_KEY}`
         }
@@ -68,7 +69,7 @@ const AppSearch = () => {
               <div className="card-footer">
                 <p>Developer: {app.developer}</p>
                 {/* Add link to app details page */}
-                <a href={`/apps/${app.id}`} target="_blank" rel="noopener noreferrer">View Details</a>
+                <Link to={`/apps/${app.id}`} style={{ color: 'white' }}>View Details</Link>
               </div>
             </div>
           ))

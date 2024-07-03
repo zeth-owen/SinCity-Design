@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import StarRating from '../websites/StarRating';
 
 
+
 const AppShowPage = () => {
   const { id } = useParams();
   const history = useHistory();
@@ -26,6 +27,7 @@ const AppShowPage = () => {
         }
   
         const data = await response.json();
+        console.log('API Response:', data)
         const app = data.matches.find(app => app.id === id); 
   
         if (app) {

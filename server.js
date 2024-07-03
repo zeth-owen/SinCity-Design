@@ -165,8 +165,9 @@ app.post('/templates/:id/comments', authenticateToken, async (req, res) => {
     res.status(500).json({ message: 'Failed to add comment' });
   }
 });
+
 app.get('/comments', async (req, res) => {
-  const templateId = req.query.templateId; // Fetch templateId from query params
+  const templateId = req.query.templateId;
 
   if (!templateId) {
     return res.status(400).json({ error: 'templateId is required' });

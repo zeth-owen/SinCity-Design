@@ -21,6 +21,8 @@ const ShowPage = () => {
           }
         });
         const data = await response.json();
+        console.log('Fetching template for ID:', id); // Log the ID being fetched
+        console.log('API Response:', data); 
         setTemplate(data.matches[0]);
       } catch (error) {
         console.error('Error fetching template:', error);
@@ -71,7 +73,7 @@ const ShowPage = () => {
       setComments((prevComments) => [...prevComments, data]);
       setNewComment('');
       setRating(0);
-      setAccessDenied(false); // Reset access denied state
+      setAccessDenied(false); 
     } catch (error) {
       console.error('Error submitting comment:', error);
     }
@@ -89,8 +91,8 @@ const ShowPage = () => {
           {template.previews && template.previews.landscape_preview && (
             <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
           )}
-          <p>Category: {template.category}</p>
-          <p>Designer: {template.designer}</p>
+          <p>Category: {template.key_features}</p>
+          <p>Designer: {template.author_username}</p>
 
           <StarRating rating={rating} onRating={(rate) => setRating(rate)} />
           <p>Average Rating: {rating}</p>

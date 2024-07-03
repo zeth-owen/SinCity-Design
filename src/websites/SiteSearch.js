@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import StickyFooter from '../StickyFooter'; 
 import '../App.css';
 import { Link } from 'react-router-dom'; 
+import { useHistory } from 'react-router-dom';
+
 
 const SiteSearch = () => {
   const [query, setQuery] = useState('');
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const history = useHistory(); 
 
   const handleSearch = async () => {
     setLoading(true);
@@ -27,7 +30,8 @@ const SiteSearch = () => {
       }
 
       const data = await response.json();
-      console.log('Fetched templates:', data.matches); 
+      console.log('API Response:', data);
+      console.log('Fetched apps:', data.matches);
       setTemplates(data.matches);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -64,11 +68,13 @@ const SiteSearch = () => {
             {template.previews && template.previews.landscape_preview && (
             <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
             )}
-            <p>Category: {template.category}</p>
+            <p>Category: {template.key_features}</p>
           </div>
           <div className="card-footer">
-          <p>Designer: {template.designer}</p>
-          <Link to={`/templates/${template.id}`} style={{ color: 'white' }}>View Details</Link>
+          <p>Designer: {template.author_username}</p>
+          <Link to={`/templates/${template.id}`} style={{ color: 'white' }} onClick={() => history.push(`/templates/${template.id}`)}>
+          View Details
+          </Link>
         </div>
        </div>
         ))

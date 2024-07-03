@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import StickyFooter from '../StickyFooter'; 
 
+
 const PhotoSearch = () => {
   const [query, setQuery] = useState('');
   const [photos, setPhotos] = useState([]);
