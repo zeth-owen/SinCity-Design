@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import StickyFooter from '../StickyFooter'; 
 import '../App.css';
-
+import { Link } from 'react-router-dom'; 
 
 const SiteSearch = () => {
   const [query, setQuery] = useState('');
@@ -55,33 +55,34 @@ const SiteSearch = () => {
 
       {error && <p className="error-message">{error}</p>}
 
-      <div className="template-grid">
+        <div className="template-grid">
         {templates.length > 0 ? (
           templates.map(template => (
-            <div key={template.id} className="template-card">
-              <div className="card-content">
-                <h3>{template.name}</h3>
-                {template.previews && template.previews.landscape_preview && (
-                  <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
-                )}
-                <p>Category: {template.category}</p>
-              </div>
-              <div className="card-footer">
-                <p>Designer: {template.designer}</p>
-                {/* Pass template id to ShowPage via Link */}
-                <a href={`/templates/${template.id}`}  rel="noopener noreferrer">View Details</a>
-              </div>
-            </div>
-          ))
+        <div key={template.id} className="template-card">
+        <div className="card-content">
+          <h3>{template.name}</h3>
+            {template.previews && template.previews.landscape_preview && (
+            <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
+            )}
+            <p>Category: {template.category}</p>
+          </div>
+          <div className="card-footer">
+          <p>Designer: {template.designer}</p>
+          <Link to={`/templates/${template.id}`} style={{ color: 'white' }}>View Details</Link>
+        </div>
+       </div>
+        ))
         ) : (
-          <p>{loading ? 'Searching...' : 'No templates found'}</p>
+         <p>{loading ? 'Searching...' : 'No templates found'}</p>
         )}
-      </div>
+        </div>
+
       <StickyFooter />
-    </div>
-  );
-};
+     </div>
+        );
+      };
 
 export default SiteSearch;
+
 
 

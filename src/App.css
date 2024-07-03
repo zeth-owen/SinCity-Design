@@ -114,7 +114,11 @@ nav li {
 .page-title {
   text-align: center;
   margin-top: 10vh;
+  color: #fff; /* White text color */
+  font-size: 2.5rem; /* Adjust font size */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle text shadow */
 }
+
 
 .template-grid {
   display: grid;
@@ -129,6 +133,7 @@ nav li {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: #fff;
 }
 
 .show-page-container {
@@ -209,12 +214,10 @@ nav li {
 }
 
 .logout-button {
-  background-color: black;
-  border: 2px solid white;
-  color: white;
+  font-weight: bold;
   padding: 5px 10px;
   font-size: .7em;
-  border-radius: 20px;
+ 
 }
 
 
@@ -279,3 +282,12 @@ nav li {
 }
 
 
+.background-container {
+  position: relative;
+  min-height: 100vh;
+  background-image: url("../public/Smoke.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}

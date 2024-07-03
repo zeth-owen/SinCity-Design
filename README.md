@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# SinCity Media
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SinCity Media is a web application designed to showcase and manage creative templates for various digital projects. Users can explore, search, and view details of templates, as well as, other designers contributing their own creations.
 
-## Available Scripts
+### Designers
 
-In the project directory, you can run:
+- **Zeth Thomas**
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Search Templates**: Search for templates by category or keyword.
+- **View Details**: See detailed information about each template, including previews and designer information.
+- **User Authentication**: Secure login and registration system using JWT authentication.
+- **Designer Contributions**: Logged-in users can contribute templates and manage their submissions.
+- **Responsive Design**: Mobile-friendly interface for seamless user experience across devices.
 
-### `npm test`
+## Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Frontend**: React.js, React Router DOM
+- **Backend**: Node.js, Express.js, PostgreSQL
+- **Authentication**: JSON Web Tokens (JWT)
+- **API Integration**: Envato API for fetching template data
+- **Styling**: CSS, Bootstrap for layout and responsiveness
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Node.js and npm installed on your machine
+- PostgreSQL database setup 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Authentication and Profile Routes
 
-### `npm run eject`
+- **POST `/auth/login`**
+  - *Description:* Authenticate user and generate JWT token.
+  - *Body:* `{ email, password }`
+  - *Response:* `{ user, token }`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **GET `/auth/profile`**
+  - *Description:* Fetch user profile information.
+  - *Headers:* `Authorization: Bearer <token>`
+  - *Response:* `{ id, email, first_name, last_name }`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **POST `/auth/signup`**
+  - *Description:* Register a new user.
+  - *Body:* `{ first_name, last_name, email, password }`
+  - *Response:* `{ user, token }`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Template Comments Routes
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- **POST `/templates/:id/comments`**
+  - *Description:* Add a comment and rating to a template.
+  - *Parameters:* `:id` (template id)
+  - *Body:* `{ comment, rating }`
+  - *Headers:* `Authorization: Bearer <token>`
+  - *Response:* `{ comment_id, comment, rating, user_id, template_id }`
 
-## Learn More
+- **GET `/comments?templateId=<templateId>`**
+  - *Description:* Fetch comments for a specific template.
+  - *Query Parameters:* `templateId` (required)
+  - *Response:* `[ { comment_id, comment, rating, user_id, template_id }, ... ]`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Future Goals
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Continue to develop this app by:**
+- Expanding designer portfolios
+- Fixing bugs
+- Detail Envatos templates
+- Create a favorites page
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
