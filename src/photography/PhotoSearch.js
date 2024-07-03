@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import StickyFooter from '../StickyFooter'; // Adjust the path based on your project structure
+import StickyFooter from '../StickyFooter'; 
 
 const PhotoSearch = () => {
   const [query, setQuery] = useState('');
@@ -33,7 +33,7 @@ const PhotoSearch = () => {
   };
 
   return (
-    <div>
+    <div className='background-container'>
       <h1 className='page-title'>Photos</h1>
       <div className="search-container">
         <input

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import StarRating from './StarRating';
+import StarRating from '../websites/StarRating';
 
 
-const ShowPage = () => {
+const AppShowPage = () => {
   const { id } = useParams();
   const history = useHistory();
   const [template, setTemplate] = useState(null);
@@ -13,23 +13,34 @@ const ShowPage = () => {
   const [accessDenied, setAccessDenied] = useState(false);
 
   useEffect(() => {
-    const fetchTemplate = async () => {
+    const fetchApp = async () => {
       try {
         const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?id=${id}`, {
           headers: {
             'Authorization': `Bearer ${process.env.REACT_APP_ENVATO_API_KEY}`
           }
         });
+  
+        if (!response.ok) {
+          throw new Error('Failed to fetch app');
+        }
+  
         const data = await response.json();
-        setTemplate(data.matches[0]);
+        const app = data.matches.find(app => app.id === id); 
+  
+        if (app) {
+          setTemplate(app);
+        } else {
+          console.warn(`No app found with ID: ${id}`);
+        }
       } catch (error) {
-        console.error('Error fetching template:', error);
+        console.error('Error fetching app:', error);
       }
     };
-
+  
     const fetchComments = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/comments?templateId=${id}`);
+        const response = await fetch(`http://localhost:4000/apps/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch comments');
         }
@@ -39,10 +50,11 @@ const ShowPage = () => {
         console.error('Error fetching comments:', error);
       }
     };
-
-    fetchTemplate();
+  
+    fetchApp();
     fetchComments();
   }, [id]);
+  
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +66,7 @@ const ShowPage = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:4000/templates/${id}/comments`, {
+      const response = await fetch(`http://localhost:4000/apps/${id}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,14 +83,14 @@ const ShowPage = () => {
       setComments((prevComments) => [...prevComments, data]);
       setNewComment('');
       setRating(0);
-      setAccessDenied(false); // Reset access denied state
+      setAccessDenied(false); 
     } catch (error) {
       console.error('Error submitting comment:', error);
     }
   };
 
   const navigateBack = () => {
-    history.push('/websites'); 
+    history.push('/apps'); 
   };
 
   return (
@@ -115,8 +127,8 @@ const ShowPage = () => {
             </div>
           </section>
 
-          {/* "Back to Websites" button */}
-          <button className="back-button" onClick={navigateBack}>Back to Websites</button>
+          {/* "Back to Apps" button */}
+          <button className="back-button" onClick={navigateBack}>Back to Apps</button>
         </div>
       ) : (
         <p>Loading...</p>
@@ -125,13 +137,4 @@ const ShowPage = () => {
   );
 };
 
-export default ShowPage;
-
-
-
-
-
-
-
-
-
+export default AppShowPage;

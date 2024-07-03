@@ -25,6 +25,7 @@ const AppSearch = () => {
       }
 
       const data = await response.json();
+      console.log('API Response:', data);
       console.log('Fetched apps:', data.matches);
       setApps(data.matches);
     } catch (error) {
@@ -36,7 +37,7 @@ const AppSearch = () => {
   };
 
   return (
-    <div>
+    <div className='background-container'>
       <h1 className='page-title'>Apps</h1>
       <div className="search-container">
         <input

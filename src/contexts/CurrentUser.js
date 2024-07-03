@@ -18,7 +18,7 @@ function CurrentUserProvider({ children }) {
           if (response.ok) {
             const user = await response.json();
             console.log('User retrieved from backend:', user);
-            setCurrentUser(user); // Assuming user object includes firstName and lastName
+            setCurrentUser(user); 
           } else {
             setCurrentUser(null);
           }

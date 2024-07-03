@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { CurrentUser } from '../contexts/CurrentUser'; // Import your CurrentUser context
+import { CurrentUser } from '../contexts/CurrentUser'; 
 
 function SignUpForm() {
   const history = useHistory();
-  const { setCurrentUser } = useContext(CurrentUser); // Access setCurrentUser from context
+  const { setCurrentUser } = useContext(CurrentUser); 
 
   const [user, setUser] = useState({
     first_name: '',
@@ -32,13 +32,10 @@ function SignUpForm() {
       const data = await response.json();
       const { user: newUser, token } = data; 
 
-    
       localStorage.setItem('token', token);
 
-     
       setCurrentUser(newUser);
 
-    
       history.push('/');
     } catch (error) {
       console.error('Error creating user:', error);
@@ -46,7 +43,8 @@ function SignUpForm() {
   }
 
   return (
-    <main>
+    <main className="auth-container">
+    <div className="auth-form">
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -97,10 +95,12 @@ function SignUpForm() {
         </div>
         <input className="btn btn-primary" type="submit" value="Sign Up" />
       </form>
+      </div>
     </main>
   );
 }
 
 export default SignUpForm;
+
 
 

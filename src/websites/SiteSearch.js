@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import StickyFooter from '../StickyFooter'; 
+import '../App.css';
+
 
 const SiteSearch = () => {
   const [query, setQuery] = useState('');
@@ -36,7 +38,7 @@ const SiteSearch = () => {
   };
 
   return (
-    <div>
+    <div className='background-container'>
       <h1 className='page-title'>Websites</h1>
       <div className="search-container">
         <input
@@ -72,7 +74,7 @@ const SiteSearch = () => {
             </div>
           ))
         ) : (
-          <p>{loading ? 'Searching...' : 'No templates found.'}</p>
+          <p>{loading ? 'Searching...' : 'No templates found'}</p>
         )}
       </div>
       <StickyFooter />

@@ -1,35 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import StarRating from './StarRating';
+import StarRating from '../websites/StarRating';
 
-
-const ShowPage = () => {
+const PhotoShowPage = () => {
   const { id } = useParams();
   const history = useHistory();
-  const [template, setTemplate] = useState(null);
+  const [photo, setPhoto] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [rating, setRating] = useState(0);
   const [accessDenied, setAccessDenied] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchTemplate = async () => {
+    const fetchPhoto = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?id=${id}`, {
+        const response = await fetch(`https://api.unsplash.com/photos/${id}`, {
           headers: {
-            'Authorization': `Bearer ${process.env.REACT_APP_ENVATO_API_KEY}`
+            Authorization: `Client-ID ${process.env.ACCESS_KEY}`
           }
         });
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch photo: ${response.status} ${response.statusText}`);
+        }
+
         const data = await response.json();
-        setTemplate(data.matches[0]);
+        setPhoto(data);
       } catch (error) {
-        console.error('Error fetching template:', error);
+        console.error('Error fetching photo:', error);
+        setError('Error fetching photo. Please try again later.');
+      } finally {
+        setLoading(false);
       }
     };
 
     const fetchComments = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/comments?templateId=${id}`);
+        const response = await fetch(`http://localhost:4000/comments?photoId=${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch comments');
         }
@@ -40,7 +52,7 @@ const ShowPage = () => {
       }
     };
 
-    fetchTemplate();
+    fetchPhoto();
     fetchComments();
   }, [id]);
 
@@ -54,7 +66,7 @@ const ShowPage = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:4000/templates/${id}/comments`, {
+      const response = await fetch(`http://localhost:4000/photos/${id}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -78,19 +90,15 @@ const ShowPage = () => {
   };
 
   const navigateBack = () => {
-    history.push('/websites'); 
+    history.push('/photos'); // Adjust the path as needed
   };
 
   return (
     <div className="show-page-container">
-      {template ? (
+      {photo ? (
         <div className="show-page-content">
-          <h1>{template.name}</h1>
-          {template.previews && template.previews.landscape_preview && (
-            <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
-          )}
-          <p>Category: {template.category}</p>
-          <p>Designer: {template.designer}</p>
+          <h1>{photo.alt_description}</h1>
+          <img src={photo.urls.regular} alt={photo.alt_description} />
 
           <StarRating rating={rating} onRating={(rate) => setRating(rate)} />
           <p>Average Rating: {rating}</p>
@@ -115,23 +123,16 @@ const ShowPage = () => {
             </div>
           </section>
 
-          {/* "Back to Websites" button */}
-          <button className="back-button" onClick={navigateBack}>Back to Websites</button>
+          {/* "Back to Photos" button */}
+          <button className="back-button" onClick={navigateBack}>Back to Photos</button>
         </div>
-      ) : (
+      ) : loading ? (
         <p>Loading...</p>
+      ) : (
+        <p>{error || 'Photo not found.'}</p>
       )}
     </div>
   );
 };
 
-export default ShowPage;
-
-
-
-
-
-
-
-
-
+export default PhotoShowPage;

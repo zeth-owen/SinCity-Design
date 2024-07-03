@@ -10,6 +10,8 @@ import AppSearch from './apps/AppSearch';
 import SiteSearch from './websites/SiteSearch';
 import PhotoSearch from './photography/PhotoSearch';
 import ShowPage from './websites/ShowPage';
+import AppShowPage from './apps/AppShowPage';
+import PhotoShowPage from './photography/PhotoShowPage'; 
 
 function App() {
   return (
@@ -21,9 +23,11 @@ function App() {
           <Route exact path="/sign-up" component={SignUpForm} />
           <Route exact path="/login" component={LoginForm} />
           <Route exact path="/apps" component={AppSearch} />
+          <Route exact path="/apps/:id" component={AppShowPage} />
           <Route exact path="/websites" component={SiteSearch} />
-          <Route path="/templates/:id" component={ShowPage} />
+          <Route exact path="/templates/:id" component={ShowPage} />
           <Route exact path="/photography" component={PhotoSearch} />
+          <Route exact path="/photography/:id" component={PhotoShowPage} />
         </Switch>
       </BrowserRouter>
     </CurrentUserProvider>
@@ -31,6 +35,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
