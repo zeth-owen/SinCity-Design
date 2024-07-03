@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const app = express();
-
+const port = process.env.PORT || 4000;
 
 const pool = new Pool({
   user: process.env.DB_USERNAME,
