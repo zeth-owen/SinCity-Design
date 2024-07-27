@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import StarRating from './StarRating';
 
-
 const ShowPage = () => {
   const { id } = useParams();
   const history = useHistory();
@@ -13,17 +12,17 @@ const ShowPage = () => {
   const [accessDenied, setAccessDenied] = useState(false);
 
   useEffect(() => {
+    console.log('Fetching template for ID:', id);
     const fetchTemplate = async () => {
       try {
-        const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?id=${id}`, {
+        const response = await fetch(`https://api.envato.com/v3/market/catalog/item?id=${id}`, {
           headers: {
             'Authorization': `Bearer ${process.env.REACT_APP_ENVATO_API_KEY}`
           }
         });
         const data = await response.json();
-        console.log('Fetching template for ID:', id); // Log the ID being fetched
-        console.log('API Response:', data); 
-        setTemplate(data.matches[0]);
+        console.log('API Response:', data);
+        setTemplate(data);
       } catch (error) {
         console.error('Error fetching template:', error);
       }
@@ -55,6 +54,10 @@ const ShowPage = () => {
       return;
     }
 
+    const user = {
+      name: 'John Doe' // Replace with actual method to retrieve user info
+    };
+
     try {
       const response = await fetch(`http://localhost:4000/templates/${id}/comments`, {
         method: 'POST',
@@ -80,8 +83,12 @@ const ShowPage = () => {
   };
 
   const navigateBack = () => {
-    history.push('/websites'); 
+    history.push('/websites'); // Uncomment when route is available
   };
+
+  const averageRating = comments.length > 0
+    ? comments.reduce((total, comment) => total + comment.rating, 0) / comments.length
+    : 0;
 
   return (
     <div className="show-page-container">
@@ -89,14 +96,33 @@ const ShowPage = () => {
         <div className="show-page-content">
           <h1>{template.name}</h1>
           {template.previews && template.previews.landscape_preview && (
-            <img src={template.previews.landscape_preview.landscape_url} alt={template.name} />
+            <img
+              src={template.previews.landscape_preview.landscape_url}
+              alt={template.name}
+              style={{ maxWidth: '100%', height: 'auto' }} // Adjust style as needed
+            />
           )}
-          <p>Category: {template.key_features}</p>
-          <p>Designer: {template.author_username}</p>
+            {/* Live Site Link */}
+            {template.previews && template.previews.live_site && template.previews.live_site.href ? (
+            <p>
+              <strong>Live Site: </strong>
+              <a
+                href={`https://themeforest.net${template.previews.live_site.href}`} // Construct full URL
+                target="_blank"
+                rel="noopener noreferrer"
+                className="live-site-link">
+                View Live Preview
+              </a>
+            </p>
+          ) : (
+            <p>No live site available</p>
+          )}
 
+          {/* Star Rating */}
           <StarRating rating={rating} onRating={(rate) => setRating(rate)} />
-          <p>Average Rating: {rating}</p>
+          <p>Average Rating: {averageRating.toFixed(1)}</p> {/* Display average rating with one decimal place */}
 
+          {/* Comments Section */}
           <section className="comments-section">
             <h2>Comments</h2>
             {accessDenied && <p className="error-message">Access Denied: You must be logged in to submit a comment.</p>}
@@ -111,7 +137,7 @@ const ShowPage = () => {
             <div className="comments-list">
               {comments.map((comment) => (
                 <div key={comment.id}>
-                  <p>{comment.comment}</p>
+                  <p style={{ backgroundColor: 'lightgray' }}>{comment.comment}</p>
                 </div>
               ))}
             </div>
@@ -128,12 +154,3 @@ const ShowPage = () => {
 };
 
 export default ShowPage;
-
-
-
-
-
-
-
-
-

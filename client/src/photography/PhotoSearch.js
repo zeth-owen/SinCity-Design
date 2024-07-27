@@ -15,15 +15,17 @@ const PhotoSearch = () => {
     try {
       const response = await fetch(`https://api.unsplash.com/search/photos?page=1&query=${query}`, {
         headers: {
-        Authorization: `Client-ID ${process.env.ACCESS_KEY}`
+        Authorization: `Client-ID ${process.env.REACT_APP_ACCESS_KEY}`
         },
       });
+      console.log('API Response:', response);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch photos: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
+      console.log('API Response:', data);
       setPhotos(data.results);
     } catch (error) {
       console.error('Error fetching photos:', error.message);

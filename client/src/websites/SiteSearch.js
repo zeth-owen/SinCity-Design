@@ -10,16 +10,17 @@ const SiteSearch = () => {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const history = useHistory(); 
+
 
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
 
-    const searchTerm = `${query} website template`;
+    const searchTerm = encodeURIComponent(`${query} website templates`)
+    const site = 'themeforest.net'; 
 
     try {
-      const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?term=${searchTerm}`, {
+       const response = await fetch(`https://api.envato.com/v1/discovery/search/search/item?term=${searchTerm}&site=${site}`, {
         headers: {
          'Authorization': `Bearer ${process.env.REACT_APP_ENVATO_API_KEY}`
         }
@@ -72,7 +73,7 @@ const SiteSearch = () => {
           </div>
           <div className="card-footer">
           <p>Designer: {template.author_username}</p>
-          <Link to={`/templates/${template.id}`} style={{ color: 'white' }} onClick={() => history.push(`/templates/${template.id}`)}>
+          <Link to={`/templates/${template.id}`} style={{ color: 'white' }}>
           View Details
           </Link>
         </div>

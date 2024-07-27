@@ -290,3 +290,13 @@ nav li {
   background-repeat: no-repeat;
   overflow-x: hidden;
 }
+
+.live-site-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.live-site-link:hover {
+  text-decoration: underline;
+}

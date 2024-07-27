@@ -4,6 +4,7 @@ const { Pool } = require('pg');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const port = process.env.PORT 
 
 const app = express();
 
@@ -28,7 +29,7 @@ pool.connect((err, client, release) => {
     return console.error('Error acquiring client', err.stack);
   }
   console.log('Connected to PostgreSQL database');
-  release(); // Release the client back to the pool
+  release(); 
 });
 
 app.use(cors());
@@ -52,7 +53,7 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// User authentication and profile routes
+
 const authRouter = express.Router();
 
 authRouter.post('/login', async (req, res) => {
@@ -174,7 +175,7 @@ app.get('/comments', async (req, res) => {
   }
 
   try {
-    // Query your database to fetch comments for the specified templateId
+   
     const result = await pool.query('SELECT * FROM comments WHERE template_id = $1', [templateId]);
 
     res.status(200).json(result.rows);
