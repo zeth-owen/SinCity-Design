@@ -34,10 +34,7 @@ function Navigation() {
         <nav className={isBackgroundActive() ? 'active-background' : 'home-background'}>
             {/* Video background */}
             {isBackgroundActive() && (
-                <video autoPlay muted loop>
-                    <source src="/Fire.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
+           <img src="/Fire.jpg" alt="Fire" />
             )}
 
             {/* Navigation links */}
