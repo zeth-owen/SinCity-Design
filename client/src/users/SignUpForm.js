@@ -55,7 +55,7 @@ function SignUpForm() {
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="first_name">First Name</label>
+          <label htmlFor="first_name">First Name </label>
           <input
             required
             value={user.first_name}
@@ -66,7 +66,7 @@ function SignUpForm() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="last_name">Last Name</label>
+          <label htmlFor="last_name">Last Name </label>
           <input
             required
             value={user.last_name}

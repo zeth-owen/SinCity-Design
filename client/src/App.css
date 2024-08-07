@@ -174,8 +174,11 @@ nav.active-background .nav-link {
 }
 
 .page-title {
-  text-align: center;
+  position: absolute;
+  left: 50%; 
+  transform: translateX(-50%);
   margin-top: 1vh;
+  text-align: center;
   color: white;
   font-size: 2.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -362,12 +365,17 @@ textarea {
 
 
 .auth-container {
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  margin: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); 
+  margin-top: 10vh; 
+  width: 90%; 
+  max-width: 500px; 
   background-color: #f8f9fa; 
 }
+
+
+
 
 .auth-form {
   max-width: 400px;
@@ -439,7 +447,7 @@ div.template-card {
 @media (max-width: 768px) {
   nav {
     height: auto;
-    padding: 1em 0;
+    padding: 1px 0;
     justify-content: space-between;
     position: relative;
   }
@@ -465,6 +473,10 @@ div.template-card {
 
   .template-grid {
     grid-template-columns: 1fr; 
+    margin-top: 30vh;
+  }
+  .page-title {
+    margin-top: 1.5vh;
   }
 }
 
