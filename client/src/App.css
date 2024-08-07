@@ -182,8 +182,9 @@ nav.active-background .nav-link {
 }
 
 .template-grid {
+  position: absolute;
   display: grid;
-  margin-top: 10vh;
+  margin-top: 20vh;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
@@ -440,6 +441,7 @@ div.template-card {
     height: auto;
     padding: 1em 0;
     justify-content: space-between;
+    position: relative;
   }
 
   nav ul {
@@ -457,7 +459,8 @@ div.template-card {
   }
 
   .search-container {
-    top: 30vh; 
+    top: 40vh; 
+    position: absolute;
   }
 
   .template-grid {
