@@ -5,11 +5,9 @@ function Home() {
 
   return (
     <main>
-      <div className="video-container">
-        <video autoPlay loop muted className="background-video">
-          <source src="Fire.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      <div className="image-container">
+      <img src="Fire.jpg" alt="Background" className="background-image" />
+
         <div className='title'>
           <h1 className='Sincity'>Sin City Media</h1>
           <button className="custom-button" onClick={() => history.push('/sign-up')}>Sign Up</button>
