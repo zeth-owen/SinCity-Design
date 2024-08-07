@@ -467,7 +467,7 @@ div.template-card {
   }
 
   .search-container {
-    top: 40vh; 
+    top: 41vh; 
     position: absolute;
   }
 
@@ -476,7 +476,7 @@ div.template-card {
     margin-top: 30vh;
   }
   .page-title {
-    margin-top: 1.5vh;
+    margin-top: 1vh;
   }
 }
 
