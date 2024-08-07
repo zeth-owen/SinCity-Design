@@ -4,7 +4,7 @@ const { Pool } = require('pg');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const port = process.env.PORT 
+const port = process.env.PORT || 4000;
 
 const app = express();
 
@@ -167,25 +167,29 @@ app.post('/templates/:id/comments', authenticateToken, async (req, res) => {
   }
 });
 
-app.get('/comments', async (req, res) => {
-  const templateId = req.query.templateId;
-
-  if (!templateId) {
-    return res.status(400).json({ error: 'templateId is required' });
-  }
+app.get('/comments/:templateId', async (req, res) => {
+  const templateId = req.params.templateId;
 
   try {
-   
-    const result = await pool.query('SELECT * FROM comments WHERE template_id = $1', [templateId]);
+    const client = await pool.connect();
+    try {
+      const result = await client.query(`
+        SELECT comments.id, comments.comment, comments.rating, comments.user_id, comments.template_id, 
+               users.first_name, users.last_name
+        FROM comments
+        JOIN users ON comments.user_id = users.id
+        WHERE comments.template_id = $1
+      `, [templateId]);
 
-    res.status(200).json(result.rows);
+      res.status(200).json(result.rows);
+    } finally {
+      client.release();
+    }
   } catch (error) {
     console.error('Error fetching comments:', error);
     res.status(500).json({ error: 'Failed to fetch comments' });
   }
 });
-
-
 
 
 
