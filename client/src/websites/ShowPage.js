@@ -81,10 +81,11 @@ const ShowPage = () => {
     : 0;
 
   return (
+  
     <div className="show-page-container">
       {template ? (
         <div className="show-page-content">
-          <h1 className="page-title">{template.name}</h1>
+          <h1 className="show-page-title">{template.name}</h1>
           {template.previews?.landscape_preview && (
             <img
               src={template.previews.landscape_preview.landscape_url}

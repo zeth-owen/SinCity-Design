@@ -98,7 +98,7 @@ const PhotoShowPage = () => {
       {photo ? (
         <div className="show-page-content">
           <h1>{photo.alt_description}</h1>
-          <img src={photo.urls.regular} alt={photo.alt_description} />
+          <img className="template-image" src={photo.urls.regular} alt={photo.alt_description} />
 
           <StarRating rating={rating} onRating={(rate) => setRating(rate)} />
           <p>Average Rating: {rating}</p>
