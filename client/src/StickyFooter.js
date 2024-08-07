@@ -5,7 +5,7 @@ const StickyFooter = () => {
     <div className="sticky-footer">
 <div className="designer-profile">
         <img src="/zeth.jpg" alt="Designer" />
-        <p>Designer: Zeth Thomas</p>
+        <p style={{margin: '3px', padding: '2px'}}>Designer: Zeth Thomas</p>
         <a href="designer_portfolio_url">View Portfolio</a>
       </div>
     </div>

@@ -18,12 +18,12 @@ html, body, #root {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
+  z-index: -1;
 }
 
 .title {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
@@ -44,8 +44,7 @@ html, body, #root {
 }
 
 nav {
-  background-color: white;
-  height: 8vh; 
+  height: 11vh; 
   width: 100%;
   display: flex;
   justify-content: center;
@@ -54,8 +53,43 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 5; 
+  z-index: 5;
+  overflow: hidden;
+  position: relative; 
 }
+
+
+nav .video-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; 
+  z-index: -1; 
+}
+
+nav video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  opacity: 0.7; 
+  z-index: -1; 
+}
+
+
+nav.home-background {
+  background-color: white;
+}
+
+
+nav.active-background {
+  background-color: rgba(0, 0, 0, 0.7); 
+}
+
 
 nav ul {
   display: flex;
@@ -65,26 +99,60 @@ nav ul {
   padding: 0;
   margin: 0;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
+
 nav li {
-  color: black;
-  font-size: 1.2rem;
+  font-size: 1.2rem; 
   font-weight: bold;
 }
 
+
 .nav-link {
-  color: black;
+  color: black; 
   text-decoration: none;
+  position: relative; 
+  transition: color 0.3s, text-decoration 0.3s; 
 }
+
+
+nav.active-background .nav-link {
+  color: white;
+}
+
 
 .nav-link:hover {
   text-decoration: underline;
 }
 
+
+.nav-link.active-link::after {
+  content: ""; 
+  display: block;
+  width: 100%;
+  height: 2px; 
+  background-color: white; 
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+}
+
+.logout-button {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 5px;
+  border-radius: 5px;
+  outline: #000 0px solid;
+  font-weight: bold;
+}
+
 .search-container {
   position: absolute;
-  top: 17vh; 
+  top: 20vh; 
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -109,22 +177,22 @@ nav li {
   font-size: 1em;
   border-radius: 20px;
   z-index: 5;
+  
 }
 
 .page-title {
   text-align: center;
-  margin-top: 10vh;
-  color: #fff; 
-  font-size: 2.5rem; 
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+  margin-top: 1vh;
+  color: white;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-
 
 .template-grid {
   display: grid;
   margin-top: 10vh;
-  grid-template-columns: repeat(2, 1fr); 
-  gap: 20px; 
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .template-card {
@@ -133,19 +201,89 @@ nav li {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #fff;
+  color: black;
 }
 
 .show-page-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column; 
   align-items: center;
-  height: 100vh; 
+  min-height: 100vh; 
+  padding: 20px; 
+  box-sizing: border-box; 
 }
 
 .show-page-content {
   text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto; 
 }
+
+.comments-section {
+  width: 100%; 
+  max-width: 1200px; 
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9; 
+  border: 1px solid #ddd; 
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.comment-item {
+  display: flex;
+  align-items: center; 
+  margin-bottom: 5px;
+  justify-content: left;
+  padding: 10px;
+  border-bottom: 1px solid #ddd; 
+
+}
+
+.comment-name {
+  font-weight: bold;
+  white-space: nowrap; 
+}
+
+.comment-text {
+  flex: 1; 
+  word-wrap: break-word; 
+  margin-left: 10px;
+  text-align: left !important;
+}
+
+textarea {
+  width: 50%;
+  box-sizing: border-box;
+  height: 10vh;
+}
+
+.back-button {
+  display: inline-block; 
+  margin-top: 10px; 
+  padding: 10px 20px; 
+  background-color: #f5f5dc; 
+  color: black; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  font-weight: bold;
+}
+
+.comment-submit-button {
+  display: inline-block; 
+  margin-top: 5px; 
+  padding: 10px 20px; 
+  background-color: #007bff; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer; 
+  text-align: center !important;
+  
+}
+
+
 
 .photo-grid {
   display: grid;
@@ -180,22 +318,29 @@ nav li {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #f8f9fa;
+  background-color: #f8f9fa;;
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
   z-index: 10;
-  height: 14vh;
+  height: 11vh;
 }
 
 .designer-profile {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .designer-profile img {
   width: 50px; 
   height: 50px; 
   border-radius: 50%; 
+  margin: 0px;
+  padding: 0px;
 }
 
 .designer-profile p {
@@ -210,13 +355,6 @@ nav li {
 
 .designer-profile a:hover {
   text-decoration: underline;
-}
-
-.logout-button {
-  font-weight: bold;
-  padding: 5px 10px;
-  font-size: .7em;
- 
 }
 
 
@@ -281,16 +419,6 @@ nav li {
 }
 
 
-.background-container {
-  position: relative;
-  min-height: 100vh;
-  background-image: url("../public/Smoke.jpeg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  overflow-x: hidden;
-}
-
 .live-site-link {
   color: #007bff;
   text-decoration: none;
@@ -300,3 +428,8 @@ nav li {
 .live-site-link:hover {
   text-decoration: underline;
 }
+
+div.template-card {
+  background-color:#f8f9fa;
+}
+

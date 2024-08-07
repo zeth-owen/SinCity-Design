@@ -7,10 +7,12 @@ const AppSearch = () => {
   const [apps, setApps] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [searchCompleted, setSearchCompleted] = useState(false); // Track if search is completed
 
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
+    setSearchCompleted(false); // Reset search completed state before starting a new search
 
     const appSearchTerm = encodeURIComponent(`${query} app`);
     const appSite = 'themeforest.net';
@@ -36,6 +38,7 @@ const AppSearch = () => {
       setError('Error fetching apps. Please try again later.');
     } finally {
       setLoading(false);
+      setSearchCompleted(true); // Mark search as completed
     }
   };
 
@@ -58,7 +61,9 @@ const AppSearch = () => {
       {error && <p className="error-message">{error}</p>}
 
       <div className="template-grid">
-        {apps.length > 0 ? (
+        {loading ? (
+          <p>Searching...</p>
+        ) : apps.length > 0 ? (
           apps.map(app => {
             const hasLandscapePreview = app.previews?.landscape_preview?.landscape_url;
             const hasIconPreview = app.previews?.icon_with_landscape_preview?.icon_url;
@@ -85,19 +90,19 @@ const AppSearch = () => {
                     <p>No preview available</p> // Optional fallback if neither preview is available
                   )}
                   
-                  <p>Category: {app.category}</p>
+                  <p>Category: {app.classification}</p>
                 </div>
                 <div className="card-footer">
-                  <p>Developer: {app.developer}</p>
+                  <p>Designer: {app.author_username}</p>
                   {/* Add link to app details page */}
-                  <Link to={`/apps/${app.id}`} style={{ color: 'white' }}>View Details</Link>
+                  <Link to={`/apps/${app.id}`} style={{ color: 'blue' }}>View Details</Link>
                 </div>
               </div>
             );
           })
-        ) : (
-          <p>{loading ? 'Searching...' : 'No apps found.'}</p>
-        )}
+        ) : searchCompleted ? (
+          <p>No results found.</p>
+        ) : null}
       </div>
       <StickyFooter />
     </div>

@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 import { CurrentUser } from './contexts/CurrentUser';
-import { Link } from 'react-router-dom';
 import './App.css';
 
 function Navigation() {
+    const location = useLocation();
     const history = useHistory();
     const { currentUser, setCurrentUser } = useContext(CurrentUser);
 
@@ -14,23 +14,68 @@ function Navigation() {
         history.push('/');
     };
 
+    // Determine if the current path is active
+    const isActive = (path) => location.pathname === path;
+
+    // Determine if the background should be active (i.e., video background with overlay)
+    const isBackgroundActive = () => {
+        const activePaths = [
+            '/apps',
+            '/websites',
+            '/photography',
+            '/templates',
+            '/sign-up',
+            '/login'
+        ];
+        return activePaths.some(basePath => location.pathname.startsWith(basePath));
+    };
+
     return (
-        <nav>
+        <nav className={isBackgroundActive() ? 'active-background' : 'home-background'}>
+            {/* Video background */}
+            {isBackgroundActive() && (
+                <video autoPlay muted loop>
+                    <source src="/Fire.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            )}
+
+            {/* Navigation links */}
             <ul>
                 <li>
-                    <Link to="/" className="nav-link">Home</Link>
+                    <Link 
+                        to="/" 
+                        className={`nav-link ${isActive('/') ? 'active-link' : ''}`} 
+                    >
+                        Home
+                    </Link>
                 </li>
                 <li>
-                    <Link to="/apps" className="nav-link">Apps</Link>
+                    <Link 
+                        to="/apps" 
+                        className={`nav-link ${isActive('/apps') ? 'active-link' : ''}`} 
+                    >
+                        Apps
+                    </Link>
                 </li>
                 <li>
-                    <Link to="/websites" className="nav-link">Websites</Link>
+                    <Link 
+                        to="/websites" 
+                        className={`nav-link ${isActive('/websites') ? 'active-link' : ''}`} 
+                    >
+                        Websites
+                    </Link>
                 </li>
                 <li>
-                    <Link to="/photography" className="nav-link">Photography</Link>
+                    <Link 
+                        to="/photography" 
+                        className={`nav-link ${isActive('/photography') ? 'active-link' : ''}`} 
+                    >
+                        Photography
+                    </Link>
                 </li>
                 {currentUser && (
-                    <li style={{ textAlign: 'center' }}>
+                    <li style={{ textAlign: 'center', color: 'black', backgroundColor: 'white', fontWeight: 'bold', padding: '7px', borderRadius: '10px', outline: '2px solid black'}}>
                         {currentUser.first_name} {currentUser.last_name}
                         <br />
                         <button className="logout-button" onClick={handleLogout}>Logout</button>
@@ -42,6 +87,9 @@ function Navigation() {
 }
 
 export default Navigation;
+
+
+
 
 
 
