@@ -15,32 +15,39 @@ function SignUpForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+  
     try {
-      const response = await fetch(`http://localhost:4000/auth/signup`, {
+    
+      const response = await fetch('https://sincity-media-server.onrender.com/auth/signup', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user), 
       });
-
+  
+      
       if (!response.ok) {
-        throw new Error('Failed to create user');
+        const errorText = await response.text();
+        throw new Error(`Failed to create user: ${response.status} ${response.statusText} - ${errorText}`);
       }
-
+  
+    
       const data = await response.json();
       const { user: newUser, token } = data; 
-
+  
+     
       localStorage.setItem('token', token);
-
       setCurrentUser(newUser);
-
+  
+    
       history.push('/');
     } catch (error) {
+      
       console.error('Error creating user:', error);
     }
   }
+  
 
   return (
     <main className="auth-container">

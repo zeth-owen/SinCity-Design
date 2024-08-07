@@ -15,31 +15,41 @@ function LoginForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+  
     try {
-      const response = await fetch(`http://localhost:4000/auth/login`, {
+      const response = await fetch('https://sincity-media-server.onrender.com/auth/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials), 
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setCurrentUser(data.user);
-        localStorage.setItem('token', data.token);
-        history.push('/');
-        setErrorMessage(null); 
-      } else {
-        setErrorMessage(data.message || 'Login failed');
+  
+     
+      if (!response.ok) {
+        const errorText = await response.text(); // Get the response text for detailed error message
+        throw new Error(`Login failed: ${response.status} ${response.statusText} - ${errorText}`);
       }
+  
+     
+      const data = await response.json();
+      const { user, token } = data;
+  
+     
+      setCurrentUser(user);
+      localStorage.setItem('token', token);
+  
+     
+      history.push('/');
+      setErrorMessage(null);
+  
     } catch (error) {
+    
       console.error('Error during login:', error);
-      setErrorMessage('Failed to connect to the server');
+      setErrorMessage('Failed to connect to the server or an error occurred during login');
     }
   }
+  
 
   return (
     <main className="auth-container">
