@@ -87,11 +87,13 @@ const ShowPage = () => {
         <div className="show-page-content">
           <h1 className="show-page-title">{template.name}</h1>
           {template.previews?.landscape_preview && (
+            <div className="image-wrapper">
             <img
               src={template.previews.landscape_preview.landscape_url}
               alt={template.name}
               className="template-image"
             />
+            </div>
           )}
 
           {template.previews?.live_site?.href ? (

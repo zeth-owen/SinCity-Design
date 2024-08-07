@@ -194,7 +194,15 @@ nav.active-background .nav-link {
 .template-img {
   max-width: 100%;
   height: auto;
+  display: block; 
+  margin: 0 auto;
 }
+
+.image-wrapper {
+  max-width: 100%;
+  overflow: hidden; 
+}
+
 
 .template-grid {
   position: absolute;
@@ -481,6 +489,11 @@ div.template-card {
   }
   .page-title {
     margin-top: 1vh;
+  }
+
+  .template-image {
+    max-width: 80%;
+    height: auto;
   }
 }
 
