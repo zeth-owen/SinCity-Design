@@ -29,7 +29,7 @@ const ShowPage = () => {
 
     const fetchComments = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/comments/${id}`);
+        const response = await fetch (`https://sincity-media-server.onrender.com/comments/${id}`);
         if (!response.ok) throw new Error('Failed to fetch comments');
         const data = await response.json();
         setComments(data);
@@ -52,7 +52,7 @@ const ShowPage = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:4000/templates/${id}/comments`, {
+      const response = await fetch(`https://sincity-media-server.onrender.com/templates/${id}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
